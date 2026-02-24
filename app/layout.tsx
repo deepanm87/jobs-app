@@ -1,22 +1,25 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import ConvexClientProvider from "@/components/ConvexClientProvider";
-import { ClerkProvider } from "@clerk/nextjs";
+import type { Metadata } from "next"
+import { Bricolage_Grotesque, Figtree } from "next/font/google"
+import "./globals.css"
+import ConvexClientProvider from "@/components/ConvexClientProvider"
+import { ClerkProvider } from "@clerk/nextjs"
+import { Toaster } from "sonner"
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const bricolage = Bricolage_Grotesque({
+  variable: "--font-bricolage",
   subsets: ["latin"],
-});
+  display: "swap"
+})
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const figtree = Figtree({
+  variable: "--font-figtree",
   subsets: ["latin"],
-});
+  display: "swap"
+})
 
 export const metadata: Metadata = {
-  title: "Jobs App",
-  description: "an app to search and view jobs",
+  title: "Jobs App - Find jobs you actually want",
+  description: "a friendly job marketplace for candidates and companies. Search, apply, and hire with confidence.",
   icons: {
     icon: "/convex.svg",
   },
@@ -30,12 +33,32 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${bricolage.variable} ${figtree.variable} antialiased`}
       >
-        <ClerkProvider dynamic>
+        <ClerkProvider 
+          dynamic
+          appearance={{
+            cssLayerName: "clerk",
+            variables: {
+              colorPrimary: "var(--terracotta)",
+              colorBackground: "var(--background)",
+              colorForeground: "var(--foreground)",
+              colorPrimaryForeground: "var(--primary-foreground)",
+              colorMuted: "var(--muted)",
+              colorMutedForeground: "var(--muted-foreground)",
+              colorBorder: "var(--border)",
+              colorInput: "var(--input)",
+              colorInputForeground: "var-(foreground)",
+              colorRing: "var(--ring)",
+              borderRadius: "var(--radius)",
+              fontFamily: "var(--font-figtree), var(-font-sans), sans-serif"
+            }
+          }}
+        >
           <ConvexClientProvider>{children}</ConvexClientProvider>
+          <Toaster richColors closeButton position="bottom-right" />
         </ClerkProvider>
       </body>
     </html>
-  );
+  )
 }
