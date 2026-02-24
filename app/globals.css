@@ -284,3 +284,7 @@ body::before {
   background-repeat: repeat;
   background-size: 256px 256px;
 }
+
+button {
+  cursor: pointer;
+}

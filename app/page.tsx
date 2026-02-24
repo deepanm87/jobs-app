@@ -45,12 +45,12 @@ const DECORATIONS = [
 ]
 
 const COMPANIES = [
-  { name: "Search", className: "text-2xl font-medium tracking-tight" },
-  { name: "Shop", className: "text-xl font-bold tracking-tight" },
-  { name: "Design", className: "text-2xl font-bold italic tracking-tight" },
-  { name: "Chat", className: "text-2xl font-bold tracking-tight" },
-  { name: "Video", className: "text-2xl font-light italic tracking-wide" },
-  { name: "Home", className: "text-xl font-bold tracking-tight"}
+  { name: "SearchApp", className: "text-2xl font-medium tracking-tight" },
+  { name: "ShopApp", className: "text-xl font-bold tracking-tight" },
+  { name: "DesignApp", className: "text-2xl font-bold italic tracking-tight" },
+  { name: "ChatApp", className: "text-2xl font-bold tracking-tight" },
+  { name: "VideoApp", className: "text-2xl font-light italic tracking-wide" },
+  { name: "HomeApp", className: "text-xl font-bold tracking-tight"}
 ]
 
 const POPULAR_TAGS = ["Design", "Art", "Business", "Video Editing"]
@@ -288,7 +288,7 @@ export default function Home() {
           <h1 className="animate-fade-in font-(family-name:--font-bricolage) text-4xl leading-[1.1] font-bold tracking-tight md:text-5xl lg:text-6xl">
             Find & Hire
             <br />
-            Expers for any Job
+            Experts for any Job
           </h1>
 
           <p className="animate-fade-in stagger-2 mx-auto mt-6 max-w-lg text-base text-muted-foreground md:text-lg">
