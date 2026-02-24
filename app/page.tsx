@@ -377,7 +377,7 @@ export default function Home() {
       <section className="border-t border-border/40 bg-linear-to-b from-secondary/40 to-background py-16 md:py-24">
         <div className="mx-auto max-w-5xl px-6">
           <h2 className="animate-fade-in text-center font-(family-name:--font-bricolage) text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
-            How it&aops;s work?
+            How it works?
           </h2>
 
           <div className="relative mt-14 grip gap-12 md:mt-20 md:grid-cols-3 md:gap-0">
