@@ -9,6 +9,7 @@
  */
 
 import type * as lib_auth from "../lib/auth.js";
+import type * as lib_companies from "../lib/companies.js";
 import type * as myFunctions from "../myFunctions.js";
 import type * as notifications from "../notifications.js";
 
@@ -20,6 +21,7 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   "lib/auth": typeof lib_auth;
+  "lib/companies": typeof lib_companies;
   myFunctions: typeof myFunctions;
   notifications: typeof notifications;
 }>;

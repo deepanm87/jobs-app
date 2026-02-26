@@ -38,4 +38,35 @@ export default defineSchema({
   })
     .index("by_userId_isRead_createdAt", ["userId", "isRead", "createdAt"])
     .index("by_userId_createdAt", ["userId", "createdAt"]),
+
+  // company-related tables --------------------------------------------------
+  companies: defineTable({
+    // this record is linked to a Clerk organization
+    clerkOrgId: v.string(),
+    name: v.string(),
+    plan: v.optional(v.union(v.literal("free"), v.literal("starter"), v.literal("growth"))),
+    seatLimit: v.optional(v.number()),
+    jobLimit: v.optional(v.number()),
+    createdAt: v.number(),
+    updatedAt: v.number()
+  }).index("by_clerkOrgId", ["clerkOrgId"]),
+
+  companyMembers: defineTable({
+    companyId: v.id("companies"),
+    userId: v.id("users"),
+    role: v.union(
+      v.literal("owner"),
+      v.literal("admin"),
+      v.literal("recruiter"),
+      v.literal("member")
+    ),
+    status: v.union(
+      v.literal("pending"),
+      v.literal("active"),
+      v.literal("removed")
+    ),
+    invitedAt: v.number(),
+    updatedAt: v.number()
+  })
+    .index("by_companyId_userId", ["companyId", "userId"]),
 });
