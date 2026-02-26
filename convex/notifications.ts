@@ -82,7 +82,7 @@ export const markNotificationRead = mutation({
     notificationId: v.id("notifications")
   },
   handler: async (ctx, args) => {
-    const user = await getOrCreativeViewerUser(ctx)
+    const user = await getOrCreateViewerUser(ctx)
     const notification = await ctx.db.get(args.notificationId)
     if (!notification || notification.userId !== user._id) {
       throw new ConvexError("Notification not found.")
