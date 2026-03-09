@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { BriefcaseBusiness, Building2, FileText, Users } from "lucide-react"
 
 export function CompanySummaryCards({ orgId }: { orgId: string }) {
-  const companyContext = useQuery(api.companies.getMyCompanyContext, { clerkOrg: orgId })
+  const companyContext = useQuery(api.companies.getMyCompanyContext, { clerkOrgId: orgId })
   const jobs = useQuery(
     api.jobs.listCompanyJobs,
     companyContext ? { companyId: companyContext.companyId, includeClosed: true, limit: 200 } : "skip"
