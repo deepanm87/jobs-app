@@ -58,7 +58,7 @@ export default function NewCompanyJobPage() {
     usage !== null && 
     usage.activeJobCount >= jobLimit
 
-  const form = useForm<JobFormValue>({
+  const form = useForm<jobFormValues>({
     defaultValues: {
       title: "",
       description: "",
@@ -125,7 +125,7 @@ export default function NewCompanyJobPage() {
       </Link>
 
       <div>
-        <h1 className="font-(family-name:var(--font-bricolage)) text-2xl font-bold tracking-tight">
+        <h1 className="font-(family-name:--font-bricolage) text-2xl font-bold tracking-tight">
           Post a new job
         </h1>
         <p className="mt-1 text-muted-foreground">
@@ -182,7 +182,7 @@ export default function NewCompanyJobPage() {
               })}
             >
               <div className="space-y-4">
-                <h3 className="font-(family-name:var(--font-bricolage)) text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+                <h3 className="font-(family-name:--font-bricolage) text-sm font-semibold uppercase tracking-wider text-muted-foreground">
                   Basics
                 </h3>
                 <FormField 
@@ -223,7 +223,7 @@ export default function NewCompanyJobPage() {
               </div>
 
               <div className="space-y-4 border-t border-border pt-6">
-                <h3 className="font-(family-name:var(--font-bricolage)) text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+                <h3 className="font-(family-name:--font-bricolage) text-sm font-semibold uppercase tracking-wider text-muted-foreground">
                   Details
                 </h3>
                 <div className="grid gap-4 @xl:grid-cols-3">
@@ -337,7 +337,7 @@ export default function NewCompanyJobPage() {
                     <FormItem>
                       <FormLabel>Tags</FormLabel>
                       <FormControl>
-                        <Input className="typescript, design, saas" {...field} />
+                        <Input placeholder="typescript, design, saas" {...field} />
                       </FormControl>
                       <FormDescription>Comma-separated tags to help candidates find this listing.</FormDescription>
                       <FormMessage />
@@ -347,7 +347,7 @@ export default function NewCompanyJobPage() {
               </div>
 
               <div className="space-y-4 border-t border-border pt-6">
-                <h3 className="font-(family-name:var(--font-bricolage)) text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+                <h3 className="font-(family-name:--font-bricolage) text-sm font-semibold uppercase tracking-wider text-muted-foreground">
                   Settings
                 </h3>
                 <FormField 

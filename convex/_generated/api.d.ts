@@ -8,7 +8,10 @@
  * @module
  */
 
+import type * as applications from "../applications.js";
 import type * as companies from "../companies.js";
+import type * as favorites from "../favorites.js";
+import type * as jobs from "../jobs.js";
 import type * as lib_auth from "../lib/auth.js";
 import type * as lib_companies from "../lib/companies.js";
 import type * as myFunctions from "../myFunctions.js";
@@ -21,7 +24,10 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  applications: typeof applications;
   companies: typeof companies;
+  favorites: typeof favorites;
+  jobs: typeof jobs;
   "lib/auth": typeof lib_auth;
   "lib/companies": typeof lib_companies;
   myFunctions: typeof myFunctions;

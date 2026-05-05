@@ -53,14 +53,14 @@ export function RichTextEditor({
 }: RichTextEditorProps) {
   const editor = useEditor({
     immediatelyRender: false,
-    extensions: {
+    extensions: [
       StarterKit.configure({
         heading: { levels: [2, 3] }
       }),
       Placeholder.configure({
         placeholder: placeholder ?? "Start writing..."
       })
-    },
+    ],
     content: value,
     editorProps: {
       attributes: {

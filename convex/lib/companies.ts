@@ -3,7 +3,7 @@ import { query, mutation } from "../_generated/server"
 import type { Doc, Id } from "../_generated/dataModel"
 import type { QueryCtx, MutationCtx } from "../_generated/server"
 
-import { getViewerUser, requireViewerUser } from "./auth"
+import { getOrCreateViewerUser, getViewerUser, requireViewerUser } from "./auth"
 
 // our helpers are usable in both query and mutation contexts
 type Ctx = QueryCtx | MutationCtx
@@ -138,12 +138,15 @@ export const syncCompanyPlan = mutation({
   args: {
     clerkOrgId: v.string(),
     plan: v.union(v.literal("free"), v.literal("starter"), v.literal("growth")),
+    role: v.union(v.literal("admin"), v.literal("recruiter"), v.literal("member")),
     seatLimit: v.number(),
     jobLimit: v.number(),
   },
+  returns: v.boolean(),
   handler: async (ctx, args) => {
     // update or create a company record tied to the Clerk org
     const now = Date.now()
+
     const company = await ctx.db
       .query("companies")
       .withIndex("by_clerkOrgId", q => q.eq("clerkOrgId", args.clerkOrgId))
@@ -167,6 +170,58 @@ export const syncCompanyPlan = mutation({
         updatedAt: now,
       })
     }
+
+    // Ensure the current user is an active company member.
+    // This unblocks permissions checks that rely on `companyMembers`.
+    const companyAfterSync = await ctx.db
+      .query("companies")
+      .withIndex("by_clerkOrgId", q => q.eq("clerkOrgId", args.clerkOrgId))
+      .unique()
+
+    if (!companyAfterSync) {
+      throw new ConvexError("Company sync failed: company record missing.")
+    }
+
+    // If Convex auth isn't able to resolve a signed-in identity yet
+    // (e.g. env reload), don't hard-fail. We can still sync company limits.
+    const identity = await ctx.auth.getUserIdentity()
+    if (!identity) {
+      return false
+    }
+
+    // Ensure the current user exists so downstream queries/mutations
+    // (like create job) can resolve permissions.
+    const viewer = await getOrCreateViewerUser(ctx)
+
+    const membership = await ctx.db
+      .query("companyMembers")
+      .withIndex("by_clerkOrgId_clerkUserId", q =>
+        q.eq("clerkOrgId", args.clerkOrgId).eq("clerkUserId", viewer.clerkUserId)
+      )
+      .unique()
+
+    if (membership) {
+      await ctx.db.patch(membership._id, {
+        role: args.role,
+        status: "active",
+        joinedAt: membership.joinedAt ?? now,
+        updatedAt: now,
+      })
+    } else {
+      await ctx.db.insert("companyMembers", {
+        companyId: companyAfterSync._id,
+        userId: viewer._id,
+        clerkOrgId: args.clerkOrgId,
+        clerkUserId: viewer.clerkUserId,
+        role: args.role,
+        status: "active",
+        joinedAt: now,
+        createdAt: now,
+        updatedAt: now,
+      })
+    }
+
+    return true
   },
 })
 

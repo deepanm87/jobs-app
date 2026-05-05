@@ -17,10 +17,21 @@ export async function getViewerUser(ctx: Ctx): Promise<Doc<"users"> | null> {
   if (!identity) {
     return null
   }
-  return await ctx.db
-    .query("users")
-    .withIndex("by_clerkUserId", q => q.eq("clerkUserId", identity.subject))
-    .unique()
+
+  // Prefer Clerk's stable tokenIdentifier, but fall back to subject for older records.
+  const clerkUserIds = [identity.tokenIdentifier, identity.subject].filter(
+    (id): id is string => Boolean(id)
+  )
+
+  for (const clerkUserId of clerkUserIds) {
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_clerkUserId", q => q.eq("clerkUserId", clerkUserId))
+      .unique()
+    if (user) return user
+  }
+
+  return null
 }
 
 export async function requireViewerUser(ctx: Ctx): Promise<Doc<"users">> {
@@ -33,18 +44,25 @@ export async function requireViewerUser(ctx: Ctx): Promise<Doc<"users">> {
 
 export async function getOrCreateViewerUser(ctx: MutationCtx): Promise<Doc<"users">> {
   const identity = await requireIdentity(ctx)
-  const existing = await ctx.db
-    .query("users")
-    .withIndex("by_clerkUserId", q => q.eq("clerkUserId", identity.subject))
-    .unique()
 
-  if (existing) {
-    return existing
+  // Prefer tokenIdentifier, but fall back to subject for older records.
+  const clerkUserIds = [identity.tokenIdentifier, identity.subject].filter(
+    (id): id is string => Boolean(id)
+  )
+
+  for (const clerkUserId of clerkUserIds) {
+    const existing = await ctx.db
+      .query("users")
+      .withIndex("by_clerkUserId", q => q.eq("clerkUserId", clerkUserId))
+      .unique()
+    if (existing) return existing
   }
 
   const now = Date.now()
+
+  const clerkUserId = identity.tokenIdentifier ?? identity.subject
   const userId = await ctx.db.insert("users", {
-    clerkUserId: identity.subject,
+    clerkUserId: clerkUserId,
     email: identity.email ?? undefined,
     firstName: identity.givenName ?? undefined,
     lastName: identity.familyName ?? undefined,

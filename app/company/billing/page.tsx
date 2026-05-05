@@ -34,7 +34,7 @@ export default async function CompanyBillingPage() {
   return (
     <section className="animate-fade-in space-y-8">
       <div>
-        <h1 className="font-(family-name:var(--font-bricolage)) text-2xl font-bold tracking-tight">
+        <h1 className="font-(family-name:--font-bricolage) text-2xl font-bold tracking-tight">
           Billing & plan
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
@@ -50,7 +50,7 @@ export default async function CompanyBillingPage() {
             </div>
             <div>
               <p className="text-xs uppercase tracking-wider text-muted-foreground">Current plan</p>
-              <p className="font-(family-name:var(--font-bricolage)) text-2xl font-bold capitalize tracking-tight">
+              <p className="font-(family-name:--font-bricolage) text-2xl font-bold capitalize tracking-tight">
                 {currentPlan}
               </p>
               <p className="text-sm text-muted-foreground">
@@ -71,7 +71,7 @@ export default async function CompanyBillingPage() {
 
       <Card className="warm-shadow">
         <CardHeader>
-          <CardTitle className="font-(family-name:var(--font-bricolage)) text-xl tracking-tight">
+          <CardTitle className="font-(family-name:--font-bricolage) text-xl tracking-tight">
             Current usage
           </CardTitle>
           <p className="text-sm text-muted-foreground">
@@ -96,7 +96,7 @@ export default async function CompanyBillingPage() {
       >
         <Card className="warm-shadow overflow-hidden">
           <CardHeader>
-            <CardTitle className="font-(family-name:var(--font-bricolage)) text-xl tracking-tight">
+            <CardTitle className="font-(family-name:--font-bricolage) text-xl tracking-tight">
               Change plan
             </CardTitle>
             <p className="text-sm text-muted-foreground">
@@ -104,7 +104,23 @@ export default async function CompanyBillingPage() {
             </p>
           </CardHeader>
           <CardContent>
-            <PricingTable for="organization" />
+            <div className="space-y-4">
+              <p className="text-sm text-muted-foreground">
+                To manage your billing plan, you need to enable billing in Clerk.
+              </p>
+              <a
+                href="https://dashboard.clerk.com/last-active?path=billing/settings"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-lg bg-jade px-4 py-2 text-sm font-medium text-white hover:bg-jade/90 transition-colors"
+              >
+                Configure Billing in Clerk
+                <span>→</span>
+              </a>
+              <p className="text-xs text-muted-foreground mt-4">
+                After enabling billing, the pricing plans will appear here.
+              </p>
+            </div>
           </CardContent>
         </Card>
       </Protect>

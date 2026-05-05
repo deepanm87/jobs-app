@@ -106,7 +106,7 @@ function UsageCard({
             </div>
             <span className="text-sm font-medium">{label}</span>
           </div>
-          <span className="font-(family-name:var(--font-bricolage) text-lg font-bold">
+          <span className="font-(family-name:--font-bricolage) text-lg font-bold">
             {used}
             <span className="text-muted-foreground">/{limit}</span>
           </span>

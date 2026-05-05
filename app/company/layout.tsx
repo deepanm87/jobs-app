@@ -91,7 +91,7 @@ export default function CompanyLayout({
             </Protect>
           </nav>
 
-          <div className="ml-auto shrink-0 items-center gap-2 md:gap-3">
+          <div className="ml-auto flex shrink-0 items-center gap-2 md:gap-3">
             <OrganizationSwitcher hidePersonal />
             <NotificationBell />
             <UserButton />

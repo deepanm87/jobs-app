@@ -380,7 +380,7 @@ export default function Home() {
             How it works?
           </h2>
 
-          <div className="relative mt-14 grip gap-12 md:mt-20 md:grid-cols-3 md:gap-0">
+          <div className="relative mt-14 grid gap-12 md:mt-20 md:grid-cols-3 md:gap-0">
             {HOW_IT_WORKS.map((step, i) => (
               <div
                 key={step.title}
@@ -514,7 +514,7 @@ export default function Home() {
                     <div>
                       <p className="text-sm font-semibold">{job.title}</p>
                       <p className="mt-0.5 text-xs text-muted-foreground">
-                        {job.company} &midot; {job.location}
+                        {job.company} &middot; {job.location}
                       </p>
                     </div>
                     <Bookmark className="size-4 shrink-0 text-muted-foreground/40" />
